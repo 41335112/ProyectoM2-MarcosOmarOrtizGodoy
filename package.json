@@ -16,5 +16,8 @@
   "main": "indux.js",
   "scripts": {
     "test": "test"
+  },
+  "dependencies": {
+    "live-server": "^1.2.2"
   }
 }
