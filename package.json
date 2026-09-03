@@ -1,0 +1,20 @@
+{
+  "name": "proyectom2",
+  "version": "1.0.0",
+  "description": "descripcion del proyecto",
+  "homepage": "https://github.com/41335112/ProyectoM2-MarcosOmarOrtizGodoy#readme",
+  "bugs": {
+    "url": "https://github.com/41335112/ProyectoM2-MarcosOmarOrtizGodoy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/41335112/ProyectoM2-MarcosOmarOrtizGodoy.git"
+  },
+  "license": "ISC",
+  "author": "marcos omar ortiz godoy",
+  "type": "commonjs",
+  "main": "indux.js",
+  "scripts": {
+    "test": "test"
+  }
+}
