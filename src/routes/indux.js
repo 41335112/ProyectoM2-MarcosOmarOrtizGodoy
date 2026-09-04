@@ -4,6 +4,7 @@ const router = Router();
 
 
 router.get("/", (request, response) =>{
+    
     response.status(404).json({
         data: [],
     })
