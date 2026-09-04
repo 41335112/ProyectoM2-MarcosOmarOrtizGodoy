@@ -15,7 +15,8 @@
   "type": "commonjs",
   "main": "indux.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node --watch indux.js"
   },
   "dependencies": {
     "express": "^5.2.1",
