@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/router', authorsRouter);
+app.use('/author', authorsRouter);
 
 
 app.use((req, res) => {
