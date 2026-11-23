@@ -1,6 +1,8 @@
 const { loadEnvFile } = require ('node:process');
 const express = require ('express');
-const authorsRouter = require ('./router/authors'); 
+const authorsRouter = require ('./router/authors');
+const postsRouters = require ('./router/posts');
+
 
 
 loadEnvFile('.env');
@@ -11,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use('/author', authorsRouter);
+app.use('/posts', postsRouters);
+
 
 
 app.use((req, res) => {
