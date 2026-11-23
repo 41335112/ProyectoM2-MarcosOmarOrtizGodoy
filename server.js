@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use('/author', authorsRouter);
+app.use('/authors', authorsRouter);
 app.use('/posts', postsRouters);
 
 

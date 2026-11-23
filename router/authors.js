@@ -1,5 +1,6 @@
 const { loadEnvFile } = require ('node:process');
 const express = require ('express');
+const pool = require ('../db/config');
 const router = express.Router();
 
 
@@ -28,8 +29,18 @@ let authors = [
  }
 ];
 
-router.get('/', (req, res) => {
-  res.json(authors);
+router.get('/', async (req, res) => {
+  try{
+    
+    const result = await pool.query('SELECT * FROM authors');
+    res.json(result.rows);
+
+  }catch (error){
+
+    console.error('Error obteniendo authors', error);
+    res.status(500).json({error: 'error obteniendo authors'})
+  
+  }
 });
 
 router.get('/:id', (req, res)=> {
