@@ -6,28 +6,7 @@ const router = express.Router();
 
 loadEnvFile('.env');
 
-let authors = [
- {
-   id: 1,
-   name: 'Ana García',
-   email: 'ana@example.com',
-   bio: 'Desarrolladora full-stack apasionada por Node.js'
- },
 
- {
-   id: 2,
-   name: 'Carlos Ruiz',
-   email: 'carlos@example.com',
-   bio: 'Escritor técnico especializado en bases de datos'
- },
-
- {
-  id: 3,
-  name: 'María López',
-  email: 'maria@example.com',
-  bio: 'Ingeniera de software con foco en APIs REST'
- }
-];
 
 router.get('/', async (req, res) => {
   try{
@@ -43,18 +22,26 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', (req, res)=> {
+router.get('/:id', async (req, res)=> {
 
-  const author = authors.find(m => m.id === parseInt(req.params.id));
+  try{
+    const result = await pool.query(
+      'SELECT * FROM authors WHERE id = $1', [req.params.id]
+    );
 
-  if(!author){
-    return res.status(404).json({error: 'author no encontrado'});
+    if(result.rows.length === 0){
+      return res.status(404).json({error: 'author no encontrado'});
+    };
+    
+    res.json(result.rows[0]);
+  }catch(error){
+   console.error('error obteniendo author', error);
+   res.status(404).json({error: 'error obteniendo author'})
   }
-
-  res.json(author);
+  
 })
 
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
 
   const { name, email, bio } = req.body;
 
@@ -62,44 +49,74 @@ router.post('/', (req, res) => {
     return res.status(404).json({error:'El name, email y bio son obligatorios'});
   };
 
-  const nuevoAuthor = {
-    id: authors.length + 1,
-    name: name,
-    bio: bio
-  };
+  try {
+    
+    const result = await pool.query(
+      'INSERT INTO authors( name, email, bio) VALUES ($1, $2, $3) RETURNING *', 
+      [name, email, bio]
+    );
 
-  authors.push(nuevoAuthor);
-  res.status(201).json(authors);
-});
-
-router.put('/:id', (req, res) => {
+    return res.status(201).json(result.rows[0]);
+  } catch (error) {
+    
+    console.error('error creando author', error);
+    res.status(404).json({error: 'error creando author'});
+    
+  }
   
-  const author = authors.find(m => m.id === parseInt(req.params.id));
 
-  if(!author){
-    return res.status(404).json({error: 'author no encontrado'});
-  }
-
-  const { name, email, bio } = req.body;
-
-  if(name) name.authors = name;
-  if(email) email.author = email;
-  if(bio) bio.author = bio;
-
-
-  res.json(author);
+  
+ 
 });
 
-router.delete('/:id', (req, res) => {
+router.put('/:id', async(req, res) => {
+  
+  const { name, email, bio } = req.body;
  
-  const index = authors.findIndex(m => m.id === parseInt(req.params.id));
+  try {
+    const result = await pool.query(
+     'UPDATE authors SET name = COALESCE($1, name), email = COALESCE($2, email), bio = COALESCE($3, bio) WHERE id = $4 RETURNING *',
+     [name, email, bio, req.params.id]
+    );
 
-  if(index === -1){
-    return res.status(404).json({error: 'author no encontrado'});
+    if(result.rows.length === 0){
+      return res.status(404).json({error: 'author no encontrado'});
+    };
+    
+    res.json(result.rows[0]);
+
+  } catch (error) {
+    
+    console.error('error actualizando author', error);
+    res.status(404).json({error: 'error actualizando author'});
+
   }
 
-  authors.splice(index, 1);
-  res.json({mensaje: 'Author eliminado correctamente'});
+});
+
+router.delete('/:id', async(req, res) => {
+ 
+
+  try {
+    
+    const result = await pool.query(
+     'DELETE FROM authors WHERE id = $1 RETURNING *',
+     [req.params.id]
+    );
+
+    if(result.rows.length === 0){
+      return res.status(404).json({error: 'author no encontrado'});
+    };
+
+    res.json({mensaje: 'Author eliminado correctamente'});
+
+  } catch (error) {
+
+    console.error('error al eliminar al  author', error);
+    res.status(404).json({error: 'error al eliminar al  author'});
+  
+  }
+
 })
 
 
