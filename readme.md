@@ -52,7 +52,6 @@ ProyectoM2/
 │   └── posts.test.js        # Tests HTTP para crear posts, validar campos y borrar inexistentes
 ├── app.js                   # Instancia de Express, middlewares globales y montaje de rutas
 ├── server.js                # Punto de entrada que levanta el servidor HTTP en el puerto configurado
-├── openapi.yaml             # Especificación OpenAPI  de todos los endpoints
 ├── .env.example             # Plantilla de variables de entorno requeridas
 ├── .gitignore               # Archivos excluidos del repositorio (node_modules, .env)
 ├── package.json             # Dependencias y scripts (start, test)
@@ -235,13 +234,15 @@ npm test
 
 ## Despliegue en Railway
 
-**URL pública de producción:** `proyectom2-marcosomarortizgodoy-production.up.railway.app` *(reemplazar con el dominio generado en Railway)*
+**URL pública de producción:** `proyectom2-marcosomarortizgodoy-production.up.railway.app` 
 
 ### Pasos realizados para el despliegue
 1. **Creación del proyecto y base de datos:** en Railway se creó un proyecto nuevo y se añadió un servicio de **PostgreSQL**.
+
 2. **Diferencia entre Internal URL y Public URL:**
    * **Public URL:** utilizada desde el entorno local (`psql` / cliente SQL) para conectarse externamente a la base de datos de Railway y ejecutar el script de creación de tablas (`authors` y `posts`).
    * **Internal URL:** configurada en la variable `DATABASE_URL` del servicio de Node.js para que la API se comunique con PostgreSQL dentro de la red privada de Railway sin latencia ni exposición pública innecesaria.
+
 3. **Despliegue continuo desde GitHub:** se vinculó el repositorio de GitHub al proyecto de Railway configurando las variables de entorno `DATABASE_URL` y `NODE_ENV=production` (Railway inyecta automáticamente `PORT`).
 4. **Dominio público:** en *Settings -> Networking* se generó el dominio público HTTPS para consumir la API desde cualquier cliente HTTP.
 
@@ -256,15 +257,3 @@ Durante el desarrollo de este proyecto se empleó asistencia de inteligencia art
 3. **Pruebas de integración:** estructuración de los tests con `supertest` y `node:test`, incluyendo el ciclo de vida (`before`/`after`) para insertar datos de prueba, limpiar registros y cerrar el `Pool` de conexiones al finalizar.
 
 
----
-
-## Documentación OpenAPI
-
-La especificación completa de la API siguiendo el estándar **OpenAPI ** se encuentra en el archivo **`openapi.yaml`** en la raíz del proyecto.
-
-Para visualizarla e interactuar con los endpoints:
-1. **Swagger Editor (navegador):** ingresá a [editor.swagger.io](https://editor.swagger.io/) y copiá/pegá el contenido de `openapi.yaml`.
-2. **VS Code:** instalá la extensión *OpenAPI (Swagger) Editor* y abrí `openapi.yaml` para ver la vista previa interactiva.
-3. **Postman / Insomnia:** importá directamente el archivo `openapi.yaml` para generar la colección de peticiones automáticamente.
-
----
