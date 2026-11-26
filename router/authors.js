@@ -1,4 +1,4 @@
-const { loadEnvFile } = require ('node:process');
+
 const express = require ('express');
 const pool = require ('../db/config');
 const {
@@ -9,7 +9,7 @@ const {
 const router = express.Router();
 
 
-loadEnvFile('.env');
+
 
 
 
