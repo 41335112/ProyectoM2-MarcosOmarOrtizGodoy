@@ -39,7 +39,8 @@ El proyecto separa la configuración de red, el acceso a base de datos, las vali
 ```text
 ProyectoM2/
 ├── db/
-│   └── config.js            # Configuración y exportación del Pool de PostgreSQL
+│   ├── config.js           # Configuración y exportación del Pool de PostgreSQL
+│   └── setup.sql           # Ayuda al realway
 ├── validaciones/
 │   ├── validateAuthor.js    # Validaciones de IDs y campos de authors (name, email, bio)
 │   └── validatePost.js      # Validaciones de IDs y campos de posts (title, content, author_id, published)
