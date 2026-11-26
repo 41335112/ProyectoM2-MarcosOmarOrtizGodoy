@@ -234,7 +234,7 @@ npm test
 
 ## Despliegue en Railway
 
-**URL pública de producción:** `https://tu-proyecto.up.railway.app` *(reemplazar con el dominio generado en Railway)*
+**URL pública de producción:** `proyectom2-marcosomarortizgodoy-production.up.railway.app` *(reemplazar con el dominio generado en Railway)*
 
 ### Pasos realizados para el despliegue
 1. **Creación del proyecto y base de datos:** en Railway se creó un proyecto nuevo y se añadió un servicio de **PostgreSQL**.
